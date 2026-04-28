@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+
+  backend:
+    build:
+      context: ./express_expense-tracker
+      dockerfile: Dockerfile
+    container_name: backend-container
+    ports:
+      - "3000:3000"
+    networks:
+      - expense-network
+
+  frontend:
+    build:
+      context: ./expense-tracker
+      dockerfile: Dockerfile
+    container_name: frontend-container
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - expense-network
+
+networks:
+  expense-network:
+    driver: bridge
